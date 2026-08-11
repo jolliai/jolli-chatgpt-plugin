@@ -81,9 +81,17 @@ codex login
 
 ## Requirements
 
-- Node.js must be available on `PATH`, or recorded by a supported Jolli IDE
-  integration.
+- Node.js 22.13 or newer, on `PATH` or recorded by a supported Jolli IDE
+  integration. The plugin bundles its own runtime code, but not Node itself.
 - Codex must be installed and signed in for the default local-agent provider.
+
+## Telemetry
+
+Jolli Memory collects anonymous usage telemetry, and it is on by default. Set
+`DO_NOT_TRACK` to a non-empty value other than `0` to opt out. Exactly what is
+collected, and the other ways to turn it off, are documented at
+[jolli.ai/telemetry](https://www.jolli.ai/telemetry) and in
+[TELEMETRY.md](https://github.com/jolliai/jolliai/blob/main/TELEMETRY.md).
 
 ## Support and source
 
@@ -94,4 +102,5 @@ This repository is a generated release artifact — the plugin is built from the
 Jolli monorepo, so file changes here are overwritten by the next release. Report
 problems and send patches to the monorepo instead.
 
-Apache-2.0.
+Licensed under
+[Apache-2.0](https://github.com/jolliai/jolliai/blob/main/LICENSE).
