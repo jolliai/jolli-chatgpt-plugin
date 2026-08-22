@@ -83,7 +83,7 @@ read:
 **Fallback (CLI):** if the `status` tool is unavailable, read the same facts from
 
 ```bash
-"$HOME/.jolli/jollimemory/run-cli" status
+JOLLI_INVOKED_VIA=skill:jolli "$HOME/.jolli/jollimemory/run-cli" status
 ```
 
 If neither can be reached, skip the state-based guidance and go straight to
@@ -193,6 +193,8 @@ This skill takes one optional free-text argument.
 - `jolli:recall` — recall current-branch context.
 - `jolli:search` — search decisions across branches.
 - `jolli:status` — inspect installation and queue health.
+- `jolli:dashboard` — open the local dashboard in a browser (machine-wide
+  memories, sessions, token spend, knowledge).
 - `jolli:timeline` — show a decision topic's history.
 - `jolli:push` — publish this branch's memories to a Space.
 - `jolli:login` — sign in to Jolli so memories can sync to a Space. Surface this

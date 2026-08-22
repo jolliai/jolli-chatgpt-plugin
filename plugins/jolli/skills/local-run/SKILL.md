@@ -40,7 +40,7 @@ security recipe and the dist resolver and will not produce valid output.
 Run the eligibility helper and read its JSON:
 
 ```bash
-"$HOME/.jolli/jollimemory/run-cli" workflow local-run
+JOLLI_INVOKED_VIA=skill:local-run "$HOME/.jolli/jollimemory/run-cli" workflow local-run
 ```
 
 - `{ "type": "workflows", "workflows": [ { "id": 7, "name": "Impact Analysis", "autoMerges": true|false }, ... ] }`
@@ -95,7 +95,7 @@ Capture from its result:
 Pull the destination clone onto the server-derived work branch:
 
 ```bash
-"$HOME/.jolli/jollimemory/run-cli" docs pull --branch <writeTarget.workBranch>
+JOLLI_INVOKED_VIA=skill:local-run "$HOME/.jolli/jollimemory/run-cli" docs pull --branch <writeTarget.workBranch>
 ```
 
 **Always `--branch`. NEVER `--agent`.** The `--agent` mode runs a destructive
@@ -130,7 +130,7 @@ fresh across the wait.
 1. Publish the branch as a pull request and capture the machine-readable result:
 
    ```bash
-   "$HOME/.jolli/jollimemory/run-cli" docs publish --json
+   JOLLI_INVOKED_VIA=skill:local-run "$HOME/.jolli/jollimemory/run-cli" docs publish --json
    ```
 
    `--json` prints exactly one JSON object on stdout (all human-readable progress
@@ -142,7 +142,7 @@ fresh across the wait.
    deterministically** — do not eyeball it yourself:
 
    ```bash
-   "$HOME/.jolli/jollimemory/run-cli" space verify-publish-branch <writeTarget.workBranch> <headBranch>
+   JOLLI_INVOKED_VIA=skill:local-run "$HOME/.jolli/jollimemory/run-cli" space verify-publish-branch <writeTarget.workBranch> <headBranch>
    ```
 
    It prints `{ "match": true|false, "expected": "...", "actual": "..." }` and exits
@@ -198,7 +198,7 @@ fresh across the wait.
    chooses, shell:
 
    ```bash
-   "$HOME/.jolli/jollimemory/run-cli" open-url <url>
+   JOLLI_INVOKED_VIA=skill:local-run "$HOME/.jolli/jollimemory/run-cli" open-url <url>
    ```
 
    It prints one JSON line `{ "opened": true|false, "url": "..." }`. When `opened` is
@@ -223,3 +223,15 @@ user to install it and stop:
 ```bash
 npm i -g @jolli.ai/cli @jolli.ai/space-cli
 ```
+
+## If the Jolli CLI dispatcher is missing (Codex)
+
+`$HOME/.jolli/jollimemory/run-cli` is written by this plugin's SessionStart hook,
+and that hook does not run until it has been trusted. So when that file does not
+exist, ask the user to start a new Codex session and trust the Jolli SessionStart
+hook in `/hooks`, then retry. The Jolli Memory MCP tools arrive the same way, one
+session later — Codex reads its registrations at session start.
+
+This REPLACES any instruction above to report Jolli as not installed, or to install
+`@jolli.ai/cli` globally or the Jolli VS Code extension. You are running inside the
+Jolli plugin, so Jolli IS installed, and neither of those is the fix on this host.
